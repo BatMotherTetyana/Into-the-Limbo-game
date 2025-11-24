@@ -1,0 +1,64 @@
+[gd_scene load_steps=13 format=3 uid="uid://d3iysmynb00oq"]
+
+[ext_resource type="Texture2D" uid="uid://dj02cr0ruice1" path="res://main_menu.png" id="1_b38ll"]
+[ext_resource type="Texture2D" uid="uid://brom56n0qsews" path="res://authors_button2.png" id="2_cr422"]
+[ext_resource type="Texture2D" uid="uid://dyih0dxtqpnbj" path="res://authors_button.png" id="3_nmewe"]
+[ext_resource type="Texture2D" uid="uid://dv5buim306k81" path="res://continue_button2.png" id="4_gsvpv"]
+[ext_resource type="Texture2D" uid="uid://bh6kwdwjm6l03" path="res://continue_button.png" id="5_x7n11"]
+[ext_resource type="Texture2D" uid="uid://b35umwek82orn" path="res://new_game_button2.png" id="6_wj7xv"]
+[ext_resource type="Texture2D" uid="uid://dgb7hcfh5ykd0" path="res://new_game_button.png" id="7_1rpg4"]
+[ext_resource type="Texture2D" uid="uid://cjn0usnix7e6t" path="res://settings_button2.png" id="8_m4r33"]
+[ext_resource type="Texture2D" uid="uid://c0nsvh3616j8l" path="res://settings_button.png" id="9_jomnu"]
+[ext_resource type="Texture2D" uid="uid://bfc0ua4yt840j" path="res://exit_button2.png" id="10_xnby3"]
+[ext_resource type="Texture2D" uid="uid://ddcdcyrc668jw" path="res://exit_button.png" id="11_dqlum"]
+[ext_resource type="Texture2D" uid="uid://571r3h5wmwdo" path="res://Into_the_limbo.png" id="12_x3fph"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="MainMenu" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("1_b38ll")
+
+[node name="AuthorsButton2" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("2_cr422")
+
+[node name="AuthorsButton" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("3_nmewe")
+
+[node name="ContinueButton2" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("4_gsvpv")
+
+[node name="ContinueButton" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("5_x7n11")
+
+[node name="NewGameButton2" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("6_wj7xv")
+
+[node name="NewGameButton" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("7_1rpg4")
+
+[node name="SettingsButton2" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("8_m4r33")
+
+[node name="SettingsButton" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("9_jomnu")
+
+[node name="ExitButton2" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("10_xnby3")
+
+[node name="ExitButton" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("11_dqlum")
+
+[node name="IntoTheLimbo" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("12_x3fph")
