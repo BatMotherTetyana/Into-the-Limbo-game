@@ -1,11 +1,15 @@
 extends Node2D
 
+# ВАЖНО: Проверь, чтобы имя файла совпадало с тем, что в файловой системе (с нижним подчеркиванием)
+const SETTINGS_SCENE = preload("res://settings_screen.tscn")
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+var settings_instance = null
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _ready():
 	pass
+
+# Эта функция должна быть подключена к кнопке "Шестеренка"
+func _on_settings_button_pressed():
+	if settings_instance == null:
+		settings_instance = SETTINGS_SCENE.instantiate()
+		add_child(settings_instance)

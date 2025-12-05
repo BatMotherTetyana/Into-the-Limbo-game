@@ -1,11 +1,19 @@
 extends TextureButton
 
+# 1. Загружаем сцену настроек (обрати внимание на правильное имя файла!)
+const SETTINGS_SCENE = preload("res://settings_screen.tscn")
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+# Переменная, чтобы запомнить, открыто окно или нет
+var settings_instance = null
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _ready():
 	pass
+
+# Эту функцию нужно подключить к кнопке настройки (шестеренке)
+func _on_settings_button_pressed():
+	# Проверяем, не открыто ли уже окно
+	if settings_instance == null:
+		# Создаем окно
+		settings_instance = SETTINGS_SCENE.instantiate()
+		# Добавляем его на экран
+		add_child(settings_instance)

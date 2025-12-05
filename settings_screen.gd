@@ -1,11 +1,12 @@
-extends Node2D
+extends Node2D 
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _ready():
 	pass
+
+func _on_texture_button_pressed() -> void:
+		# Сообщаем главному меню, что переменная свободна
+	if get_parent().get("settings_instance"):
+		get_parent().settings_instance = null
+	
+	# Удаляем окно
+	queue_free()
