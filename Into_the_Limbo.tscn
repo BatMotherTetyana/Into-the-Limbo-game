@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://d3iysmynb00oq"]
+[gd_scene load_steps=23 format=3 uid="uid://d3iysmynb00oq"]
 
 [ext_resource type="Texture2D" uid="uid://dj02cr0ruice1" path="res://main_menu.png" id="1_b38ll"]
 [ext_resource type="Script" uid="uid://di1by5aef40yp" path="res://into_the_limbo.gd" id="1_nmewe"]
@@ -18,6 +18,10 @@
 [ext_resource type="Script" uid="uid://bpoo8ydfhkclp" path="res://texture_button.gd" id="14_gsvpv"]
 [ext_resource type="Script" uid="uid://156xlccu813f" path="res://texture_button_4.gd" id="15_jomnu"]
 [ext_resource type="Script" uid="uid://c3qpkt2ndb3fd" path="res://texture_button_5.gd" id="18_xnby3"]
+[ext_resource type="Script" uid="uid://cdjq8xdycis75" path="res://settings_screen.gd" id="19_dqlum"]
+[ext_resource type="Texture2D" uid="uid://dr4el0ilga2q8" path="res://window_settings.png" id="20_x3fph"]
+[ext_resource type="Texture2D" uid="uid://dptkyy7dk7dkq" path="res://settings_close_button2.png" id="21_77w16"]
+[ext_resource type="Texture2D" uid="uid://qgs632ae06j0" path="res://settings_close_button.png" id="22_uks4d"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_nmewe")
@@ -68,7 +72,6 @@ texture_pressed = ExtResource("8_m4r33")
 script = ExtResource("15_jomnu")
 
 [node name="exit" type="TextureButton" parent="."]
-anchors_preset = -1
 offset_left = 1640.0
 offset_top = 841.0
 offset_right = 1820.0
@@ -77,3 +80,24 @@ texture_normal = ExtResource("11_dqlum")
 texture_pressed = ExtResource("10_xnby3")
 ignore_texture_size = true
 script = ExtResource("18_xnby3")
+
+[node name="SettingsScreen" type="Node2D" parent="."]
+script = ExtResource("19_dqlum")
+
+[node name="WindowSettings" type="Sprite2D" parent="SettingsScreen"]
+position = Vector2(960, 540)
+texture = ExtResource("20_x3fph")
+
+[node name="SettingsCloseButton2" type="Sprite2D" parent="SettingsScreen"]
+position = Vector2(960, 540)
+texture = ExtResource("21_77w16")
+
+[node name="SettingsCloseButton" type="Sprite2D" parent="SettingsScreen"]
+position = Vector2(960, 540)
+texture = ExtResource("22_uks4d")
+
+[node name="TextureButton" type="TextureButton" parent="SettingsScreen"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture_normal = ExtResource("22_uks4d")
+texture_pressed = ExtResource("21_77w16")
