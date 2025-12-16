@@ -13,3 +13,9 @@ func _on_settings_button_pressed():
 	if settings_instance == null:
 		settings_instance = SETTINGS_SCENE.instantiate()
 		add_child(settings_instance)
+
+
+func _on_newgame_pressed():
+	# Меняем сцену на уровень 1
+	# ВАЖНО: Проверь, чтобы имя файла в кавычках точно совпадало с именем твоей сохраненной сцены!
+	get_tree().change_scene_to_file("res://scene1.tscn")

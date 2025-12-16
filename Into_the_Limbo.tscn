@@ -107,4 +107,5 @@ stream = ExtResource("22_dqlum")
 autoplay = true
 bus = &"Music"
 
+[connection signal="pressed" from="newgame" to="." method="_on_newgame_pressed"]
 [connection signal="pressed" from="settings" to="." method="_on_settings_button_pressed"]
