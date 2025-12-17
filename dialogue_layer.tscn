@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://dy3wneqg6tqbr"]
+
+[ext_resource type="Texture2D" uid="uid://d0j0krlv638fl" path="res://gialogue_window.png" id="1_sasex"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_sasex")
+
+[node name="Label" type="Label" parent="Background"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 850.0
+offset_right = 1800.0
+offset_bottom = 1020.0

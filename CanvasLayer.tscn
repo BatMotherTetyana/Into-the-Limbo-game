@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cl11kttakgeyi"]
+[gd_scene load_steps=20 format=3 uid="uid://cl11kttakgeyi"]
 
 [ext_resource type="Script" uid="uid://cfll5onfr4i2x" path="res://pause_layer.gd" id="1_mqrtn"]
 [ext_resource type="Texture2D" uid="uid://cbiyaa5qtdgev" path="res://pause_button.png" id="2_ah0nl"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://cjn0usnix7e6t" path="res://settings_button2.png" id="16_yu2v8"]
 [ext_resource type="Texture2D" uid="uid://ddcdcyrc668jw" path="res://exit_button.png" id="17_khi8l"]
 [ext_resource type="Texture2D" uid="uid://bfc0ua4yt840j" path="res://exit_button2.png" id="18_fmejt"]
+[ext_resource type="PackedScene" uid="uid://hdlkpjn2vkpv" path="res://settings_screen.tscn" id="19_ah0nl"]
 
 [node name="PauseLayer" type="CanvasLayer"]
 process_mode = 3
@@ -82,7 +83,7 @@ offset_bottom = 320.0
 texture_normal = ExtResource("13_elpdy")
 texture_pressed = ExtResource("14_saqa3")
 
-[node name="TextureButton5" type="TextureButton" parent="PauseWindow"]
+[node name="SettingsButton" type="TextureButton" parent="PauseWindow"]
 offset_left = 1150.0
 offset_top = 560.0
 offset_right = 1330.0
@@ -106,7 +107,14 @@ offset_bottom = 196.0
 texture_normal = ExtResource("2_ah0nl")
 texture_pressed = ExtResource("3_b18ab")
 
+[node name="SettingsScreen" parent="." instance=ExtResource("19_ah0nl")]
+visible = false
+position = Vector2(-11, 0)
+
 [connection signal="pressed" from="PauseWindow/MenuButton" to="." method="_on_menu_button_pressed"]
 [connection signal="pressed" from="PauseWindow/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseWindow/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="PauseWindow/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="OpenButton" to="." method="_on_open_button_pressed"]
+
+[editable path="SettingsScreen"]

@@ -3,13 +3,27 @@ extends Node2D
 func _ready():
 	pass
 
-func _on_texture_button_pressed() -> void:
-		# Сообщаем главному меню, что переменная свободна
-	if get_parent().get("settings_instance"):
-		get_parent().settings_instance = null
-	
-	# Удаляем окно
-	queue_free()
+func _on_texture_button_pressed():
+	# Проверяем, находимся ли мы внутри Паузы
+	if get_parent().name == "PauseLayer":
+		# ВАРИАНТ 1: МЫ В ПАУЗЕ
+		
+		# 1. Скрываем само окно настроек (себя)
+		self.visible = false
+		
+		# 2. Находим у "родителя" (в сцене PauseLayer) окно меню и включаем его
+		# Убедись, что в сцене PauseLayer узел называется именно PauseWindow!
+		get_parent().get_node("PauseWindow").visible = true
+		
+	else:
+		# ВАРИАНТ 2: МЫ В ГЛАВНОМ МЕНЮ
+		
+		# Очищаем переменную в меню (чтобы не было ошибок при повторном открытии)
+		if "settings_instance" in get_parent():
+			get_parent().settings_instance = null
+			
+		# Удаляем окно полностью
+		queue_free()
 
 
 func _on_h_slider_2_value_changed(value):

@@ -16,6 +16,5 @@ func _on_settings_button_pressed():
 
 
 func _on_newgame_pressed():
-	# Меняем сцену на уровень 1
-	# ВАЖНО: Проверь, чтобы имя файла в кавычках точно совпадало с именем твоей сохраненной сцены!
-	get_tree().change_scene_to_file("res://scene1.tscn")
+
+	SceneTransition.change_scene("res://scene1.tscn")

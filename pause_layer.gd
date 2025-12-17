@@ -1,11 +1,11 @@
 extends CanvasLayer
 
 func _ready():
-	# При старте игры:
-	# 1. Показываем маленькую кнопку
 	$OpenButton.visible = true
-	# 2. Скрываем всё окно паузы (вместе с фоном и кнопками)
 	$PauseWindow.visible = false
+	
+	# ДОБАВЬ ВОТ ЭТУ СТРОЧКУ:
+	$SettingsScreen.visible = false
 
 
 # Эта функция для кнопки В УГЛУ (OpenButton)
@@ -41,3 +41,17 @@ func _on_menu_button_pressed():
 func _on_quit_button_pressed():
 	# Просто закрываем программу
 	get_tree().quit()
+
+# Когда жмем на ШЕСТЕРЕНКУ
+func _on_settings_button_pressed():
+	# Скрываем меню паузы
+	$PauseWindow.visible = false
+	# Показываем настройки
+	$SettingsScreen.visible = true
+
+# Когда жмем на КРЕСТИК (в настройках)
+func _on_close_settings_button_pressed(): # Имя функции может быть другим, зависит от названия кнопки
+	# Скрываем настройки
+	$SettingsScreen.visible = false
+	# Возвращаем меню паузы
+	$PauseWindow.visible = true

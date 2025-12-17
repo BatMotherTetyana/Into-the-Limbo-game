@@ -7,7 +7,8 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="BgScene1" type="Sprite2D" parent="."]
-position = Vector2(968, 553)
+position = Vector2(959.51044, 546.75)
+scale = Vector2(0.7112629, 0.711263)
 texture = ExtResource("1_rnpve")
 
 [node name="TestPause" type="Sprite2D" parent="."]
