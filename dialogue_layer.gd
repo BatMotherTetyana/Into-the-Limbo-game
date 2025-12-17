@@ -49,7 +49,7 @@ func show_next_line():
 	current_tween.finished.connect(func(): is_typing = false)
 
 # Ловим клики мышкой В ЛЮБОМ МЕСТЕ экрана
-func _input(event):
+func _unhandled_input(event):
 	# Если диалог скрыт — не реагируем
 	if not visible: return
 	
