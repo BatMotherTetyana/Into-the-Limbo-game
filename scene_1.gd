@@ -1,21 +1,71 @@
 extends Node2D
 
+# --- ССЫЛКИ НА УЗЛЫ ---
+# Контейнер героя и его слои
+@onready var hero_container = $HeroContainer
+@onready var color_layer = $HeroContainer/ColorLayer
+@onready var black_layer = $HeroContainer/BlackLayer
+
+# Виньетка (Черный экран для переходов)
+# Убедись, что у тебя в сцене есть ColorRect с именем BlackScreen!
+@onready var black_screen = $BlackScreen 
+@onready var vignette = $Vignette # (Или путь к ней, если она в CanvasLayer)
+
+# --- ЗАГРУЗКА СПРАЙТОВ (ПОЗЫ) ---
+# preload загружает картинки сразу при старте игры - это работает быстрее
+
+# ПОЗА 1 (Нейтральная / Спокойная)
+var pose1_color = preload("res://limbo1.png")
+var pose1_black = preload("res://limbo1b.png")
+
+# ПОЗА 2 (Удивление / Страх / Другая эмоция)
+var pose2_color = preload("res://limbo2.png")
+var pose2_black = preload("res://limbo2b.png")
+
+# ПОЗА 3
+var pose3_color = preload("res://limbo3.png")
+var pose3_black = preload("res://limbo3b.png")
+
+# ПОЗА 4
+var pose4_color = preload("res://limbo4.png")
+var pose4_black = preload("res://limbo4b.png")
+
+# ПОЗА 5
+var pose5_color = preload("res://limbo5.png")
+var pose5_black = preload("res://limbo5b.png")
+
+# ПОЗА 6
+var pose6_color = preload("res://limbo6.png")
+var pose6_black = preload("res://limbo6b.png")
+
+
+# --- НАСТРОЙКИ КАРМЫ (ПРОЗРАЧНОСТИ) ---
+# 1.0 = Полностью черный силуэт
+# 0.0 = Полностью цветной спрайт
+var current_darkness: float = 1.0 
+const STEP: float = 0.2 # Шаг изменения (20%)
+
+
 func _ready():
-	# 1. Загружаем ФОНОВЫЙ ЗВУК (ветер, гул, лес...)
+	# --- 0. НАЧАЛЬНАЯ ПОДГОТОВКА ---
+	# Скрываем героя, пока не наступит его время
+	hero_container.visible = false
+	# Убеждаемся, что сам герой внутри контейнера черный (верхний слой непрозрачен)
+	black_layer.modulate.a = 1.0
+	current_darkness = 1.0
+	# Экран прозрачный (видим фон)
+	black_screen.color.a = 0.0
+	
+	
+	# --- 1. АУДИО СТАРТ ---
 	var ambient_sound = load("res://wind_sound.mp3")
-	
-	# 2. Просим Диджея включить Эмбиент
 	AudioManager.play_ambient(ambient_sound, 3.0)
+	AudioManager.stop_music(2.0) # Глушим музыку меню
 	
-	# 2. Глушим музыку из МЕНЮ
-	# Ставим время затухания, например, 2 секунды. 
-	# Пока экран светлеет после шторки, музыка будет плавно исчезать.
-	AudioManager.stop_music(2.0)
 	
-	# 1. Ждем 3 секунды
-	await get_tree().create_timer(3.0).timeout
+	# --- 2. ПЕРВЫЙ ДИАЛОГ ---
+	await get_tree().create_timer(3.0).timeout # Ждем 3 секунды
 	
-	# 2. Список фраз для диалога
 	var my_text = [
 		"Consciousness returns not with a sudden flash, but as a viscous, slow ascent from the depths of a non-existent ocean, where eyelids part to sever the veil of non-being, and the world reveals itself in frozen grisaille, bereft of the breath of life.",
 		"Dark blades of grass, akin to frozen strings, barely graze bare feet—a touch filled with a cold, detached tenderness—while a directionless wind slides across the skin, offering no refreshment, but rather licking away the remnants of warmth and carrying off shards of the past.",
@@ -28,10 +78,74 @@ func _ready():
 		"In this desolate space, time itself is tied in a knot, extinguishing thoughts before they can shape into questions: the steppe waits, the forest watches, and the fog within echoes the fog without, erasing the boundaries between the observer and the observed."
 	]
 	
-	# 3. Запускаем диалог!
-	# (Убедись, что имя узла DialogueLayer правильное)
+	# Запускаем диалог
 	$DialogueLayer.start_dialogue(my_text)
+	
+	# ВАЖНО: Ждем, пока игрок дочитает весь текст!
+	# (Для этого мы добавляли signal dialogue_finished в скрипт диалога)
+	await $DialogueLayer.dialogue_finished
+	
+	# --- 1. ПОЯВЛЕНИЕ ВИНЬЕТКИ ---
+	# Создаем тревожную атмосферу
+	# (Убедись, что перед этим vignette.modulate.a = 0.0)
+	var tween0 = create_tween()
+	tween0.tween_property(vignette, "modulate:a", 1.0, 1.0) # Появляется за 2 сек
+	await tween0.finished
+	await get_tree().create_timer(3.0).timeout
+	# --- 2. КОРОТКИЙ ДИАЛОГ С ВИНЬЕТКОЙ ---
+	var scared_text = [
+		"Мне становится трудно дышать...", 
+		"Стены давят..."
+		]
+	$DialogueLayer.start_dialogue(scared_text)
+	await $DialogueLayer.dialogue_finished
+	# --- 3. КАТ-СЦЕНА (ПОЯВЛЕНИЕ ГЕРОЯ) ---
+	
+	# Затемняем экран в черноту за 2 секунды
+	var tween = create_tween()
+	tween.tween_property(black_screen, "color:a", 1.0, 1.0)
+	await tween.finished
+	
+	# Пока темно - включаем героя (но его пока не видно из-за черного экрана)
+	hero_container.visible = true
+	vignette.visible = false
+	
+	# Ждем 2 секунды в полной темноте (для атмосферы)
+	await get_tree().create_timer(2.0).timeout
+	
+	# Возвращаем картинку (убираем черноту экрана)
+	tween = create_tween()
+	tween.tween_property(black_screen, "color:a", 0.0, 2.0) # Медленно, за 3 сек
+	await tween.finished
+	
+	
+	# --- 4. ВКЛЮЧАЕМ МУЗЫКУ ---
+	# Запускаем музыку только когда герой появился
+	var level_music = load("res://music_box.mp3") # Укажи свой файл!
+	AudioManager.play_music(level_music)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+
+# --- ФУНКЦИИ УПРАВЛЕНИЯ ГЕРОЕМ ---
+
+# 1. Функция изменения Кармы (шагов проявления)
+# Вызывай change_karma(true), если ответ правильный
+# Вызывай change_karma(false), если ответ неправильный
+func change_karma(is_correct: bool):
+	if is_correct:
+		current_darkness -= STEP # Светлеем (проявляем цвет)
+	else:
+		current_darkness += STEP # Темнеем (прячем цвет)
+	
+	# Не даем уйти за границы (меньше 0 или больше 1)
+	current_darkness = clamp(current_darkness, 0.0, 1.0)
+	
+	# Плавно меняем прозрачность черного слоя
+	var tween = create_tween()
+	tween.tween_property(black_layer, "modulate:a", current_darkness, 0.5)
+	
+	print("Текущая тьма героя: ", current_darkness)
+
+# 2. Функция смены позы (меняет картинки сразу на двух слоях)
+func change_hero_pose(color_tex: Texture2D, black_tex: Texture2D):
+	color_layer.texture = color_tex
+	black_layer.texture = black_tex

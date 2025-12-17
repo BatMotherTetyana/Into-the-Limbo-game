@@ -1,10 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://df8cppb86yltx"]
+[gd_scene load_steps=10 format=3 uid="uid://df8cppb86yltx"]
 
 [ext_resource type="Script" uid="uid://co0qj41qubdga" path="res://scene_1.gd" id="1_nmhtg"]
 [ext_resource type="Texture2D" uid="uid://cmr2fhjnv3nrj" path="res://bg_scene1.png" id="1_rnpve"]
 [ext_resource type="Texture2D" uid="uid://dcb65r0f41yna" path="res://test pause.png" id="2_m2sqd"]
 [ext_resource type="PackedScene" uid="uid://cl11kttakgeyi" path="res://CanvasLayer.tscn" id="3_ho7oe"]
+[ext_resource type="Texture2D" uid="uid://cuuhjmx4xc55m" path="res://limbo1.png" id="4_b6skf"]
 [ext_resource type="PackedScene" uid="uid://dy3wneqg6tqbr" path="res://dialogue_layer.tscn" id="4_tq727"]
+[ext_resource type="Texture2D" uid="uid://ccp6e16tqq6gn" path="res://limbo1b.png" id="5_sprq5"]
+
+[sub_resource type="Gradient" id="Gradient_b6skf"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.7176471)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sprq5"]
+gradient = SubResource("Gradient_b6skf")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_nmhtg")
@@ -19,6 +30,32 @@ visible = false
 position = Vector2(960, 540)
 texture = ExtResource("2_m2sqd")
 
+[node name="HeroContainer" type="Node2D" parent="."]
+
+[node name="ColorLayer" type="Sprite2D" parent="HeroContainer"]
+position = Vector2(960, 540)
+texture = ExtResource("4_b6skf")
+
+[node name="BlackLayer" type="Sprite2D" parent="HeroContainer"]
+position = Vector2(960, 540)
+texture = ExtResource("5_sprq5")
+
+[node name="BlackScreen" type="ColorRect" parent="."]
+offset_left = -13.0
+offset_top = -3.0
+offset_right = 1951.0
+offset_bottom = 1113.0
+color = Color(0, 0, 0, 0)
+
+[node name="Vignette" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_left = -6.0
+offset_right = 1922.0
+offset_bottom = 1084.0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_sprq5")
+
 [node name="DialogueLayer" parent="." instance=ExtResource("4_tq727")]
+visible = false
 
 [node name="PauseLayer" parent="." instance=ExtResource("3_ho7oe")]

@@ -1,4 +1,6 @@
-extends CanvasLayer
+extends CanvasLayer  # Это ВСЕГДА первая строка!
+
+signal dialogue_finished
 
 # Сюда мы будем загружать фразы
 var dialogue_lines: Array = []
@@ -27,6 +29,11 @@ func show_next_line():
 	# Если фразы кончились — закрываем окно
 	if current_line_index >= dialogue_lines.size():
 		visible = false
+		
+		# --- ДОБАВЬ ЭТУ СТРОЧКУ: ---
+		dialogue_finished.emit() # Кричим: "Диалог окончен!"
+		# ---------------------------
+		
 		return
 	
 	# Берем текущую фразу
