@@ -1,13 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://dy3wneqg6tqbr"]
 
-[ext_resource type="Script" uid="uid://v2ctysv67pjh" path="res://dialogue_layer.gd" id="1_872dw"]
+[ext_resource type="Script" path="res://dialogue_layer.gd" id="1_872dw"]
 [ext_resource type="Texture2D" uid="uid://d0j0krlv638fl" path="res://gialogue_window.png" id="1_sasex"]
-[ext_resource type="FontFile" uid="uid://lo7t0ueyvshc" path="res://nokiafc22.ttf" id="2_vpqk3"]
+[ext_resource type="FontFile" uid="uid://qsmhq6ad7407" path="res://dogicapixel.ttf" id="3_872dw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_872dw"]
-font = ExtResource("2_vpqk3")
-font_size = 50
-font_color = Color(0.5850624, 0.5850619, 0.5850621, 1)
+line_spacing = 10.0
+font = ExtResource("3_872dw")
+font_size = 30
+font_color = Color(0.6542319, 0.6542321, 0.654232, 1)
 
 [node name="DialogueLayer" type="CanvasLayer"]
 script = ExtResource("1_872dw")
