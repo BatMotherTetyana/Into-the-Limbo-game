@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://df8cppb86yltx"]
+[gd_scene load_steps=6 format=3 uid="uid://df8cppb86yltx"]
 
+[ext_resource type="Script" uid="uid://co0qj41qubdga" path="res://scene_1.gd" id="1_nmhtg"]
 [ext_resource type="Texture2D" uid="uid://cmr2fhjnv3nrj" path="res://bg_scene1.png" id="1_rnpve"]
 [ext_resource type="Texture2D" uid="uid://dcb65r0f41yna" path="res://test pause.png" id="2_m2sqd"]
 [ext_resource type="PackedScene" uid="uid://cl11kttakgeyi" path="res://CanvasLayer.tscn" id="3_ho7oe"]
+[ext_resource type="PackedScene" uid="uid://dy3wneqg6tqbr" path="res://dialogue_layer.tscn" id="4_tq727"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_nmhtg")
 
 [node name="BgScene1" type="Sprite2D" parent="."]
 position = Vector2(959.51044, 546.75)
@@ -15,5 +18,7 @@ texture = ExtResource("1_rnpve")
 visible = false
 position = Vector2(960, 540)
 texture = ExtResource("2_m2sqd")
+
+[node name="DialogueLayer" parent="." instance=ExtResource("4_tq727")]
 
 [node name="PauseLayer" parent="." instance=ExtResource("3_ho7oe")]
