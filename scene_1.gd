@@ -70,7 +70,7 @@ func _ready():
 		"Consciousness returns not with a sudden flash, but as a viscous, slow ascent from the depths of a non-existent ocean, where eyelids part to sever the veil of non-being, and the world reveals itself in frozen grisaille, bereft of the breath of life.",
 		"Dark blades of grass, akin to frozen strings, barely graze bare feet—a touch filled with a cold, detached tenderness—while a directionless wind slides across the skin, offering no refreshment, but rather licking away the remnants of warmth and carrying off shards of the past.",
 		"Memory melts like hoarfrost on black stone; names, faces, causes, and consequences dissolve into an internal fog that thickens with every passing second, leaving the mind crystal clear yet frighteningly empty, where thoughts depart before they are truly born, consumed by the whitish haze of oblivion.",
-		"Around stretches a boundless steppe—an ocean of silence over which, in place of the sun, reigns the deathly pale disc of the moon, whose radiance is paradoxical: it offers no warmth, yet floods the space with an unnatural, piercing clarity, allowing the gaze to slide far ahead, to where the horizon is pierced by black peaks",
+		"Around stretches a boundless steppe—an ocean of silence over which, in place of the sun, reigns the deathly pale disc of the moon, whose radiance is paradoxical: it offers no warmth, yet floods the space with an unnatural, piercing clarity, allowing the gaze to slide far ahead, to where the horizon is pierced by black peaks.",
 		"There, in the distance, lurks the forest—a jagged wall of shadows, ancient and sinister, like a scar upon the body of the night, and from these silhouettes emanates a vibration of silent anticipation.",
 		"The place breathes a strangeness impossible to clothe in simple emotions;",
 		"...it is neither fear nor peace, but something interstitial—a sensation that the world around is merely a thin set decoration stretched over primordial chaos.",
@@ -94,8 +94,15 @@ func _ready():
 	await get_tree().create_timer(3.0).timeout
 	# --- 2. КОРОТКИЙ ДИАЛОГ С ВИНЬЕТКОЙ ---
 	var scared_text = [
-		"Мне становится трудно дышать...", 
-		"Стены давят..."
+		"The gaze, straining to pierce the gray shroud and catch even a flicker of movement at the forest's edge, suddenly snags on something blacker than the night itself.", 
+		"There, where the air feels especially dense, a hollow void emerges—as if the very fabric of twilight has torn apart to reveal a primordial emptiness.",
+		"The shadow has coalesced into a tall, tense figure frozen amidst the grass, like an unknown beast caught in a moment of absolute stillness.",
+		"The sharp, towering peaks of ears, resembling the tines of a shadowy crown, and the smooth curve of a long tail are divined more by intuition than by clear sight.",
+		"The fog clings to this form, now blurring its edges into a haze, now retreating to let the blackness emerge with frightening clarity.",
+		"And suddenly, this unnatural stillness is broken. The black silhouette detaches from the monolithic wall of the forest and begins a smooth glide forward.",
+		"Tall dark grass conceals its base, masking the movement of legs, giving rise to the eerie sensation that the figure is not walking, but drifting through black waves of grass—slicing through the viscous gloom without disturbing its dead silence.",
+		"With every dragging moment, the black spot gains density, its contours sharpening.",
+		"The distance shrinks inexorably, and from this silent, inevitable advance, an inner chill deepens, finally seizing the breath entirely."
 		]
 	$DialogueLayer.start_dialogue(scared_text)
 	await $DialogueLayer.dialogue_finished
@@ -110,6 +117,11 @@ func _ready():
 	hero_container.visible = true
 	vignette.visible = false
 	
+	# --- 4. ВКЛЮЧАЕМ МУЗЫКУ ---
+	# Запускаем музыку только когда герой появился
+	var level_music = load("res://music_box.mp3") # Укажи свой файл!
+	AudioManager.play_music(level_music)
+	
 	# Ждем 2 секунды в полной темноте (для атмосферы)
 	await get_tree().create_timer(2.0).timeout
 	
@@ -119,10 +131,6 @@ func _ready():
 	await tween.finished
 	
 	
-	# --- 4. ВКЛЮЧАЕМ МУЗЫКУ ---
-	# Запускаем музыку только когда герой появился
-	var level_music = load("res://music_box.mp3") # Укажи свой файл!
-	AudioManager.play_music(level_music)
 
 
 # --- ФУНКЦИИ УПРАВЛЕНИЯ ГЕРОЕМ ---

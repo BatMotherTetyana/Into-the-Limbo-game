@@ -49,19 +49,26 @@ func show_next_line():
 	current_tween = create_tween()
 	
 	# Рассчитываем время: 0.05 сек на каждую букву
-	var duration = text_label.text.length() * 0.05
+	var duration = text_label.text.length() * 0.035
 	current_tween.tween_property(text_label, "visible_ratio", 1.0, duration)
 	
 	# Когда анимация закончится, говорим, что печатать закончили
 	current_tween.finished.connect(func(): is_typing = false)
 
-# Ловим клики мышкой В ЛЮБОМ МЕСТЕ экрана
 func _unhandled_input(event):
-	# Если диалог скрыт — не реагируем
+	# Если диалог скрыт — не реагируем ни на что
 	if not visible: return
 	
-	# Если нажата левая кнопка мыши
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+	# 1. Проверяем, что именно нажал игрок
+	var is_mouse_click = (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT)
+	var is_space = (event is InputEventKey and event.pressed and event.keycode == KEY_SPACE)
+	var is_enter = (event is InputEventKey and event.pressed and event.keycode == KEY_ENTER)
+	
+	# 2. Если произошло ЛЮБОЕ из этих действий
+	if is_mouse_click or is_space or is_enter:
+		
+		# Чтобы нажатие пробела не срабатывало дважды (если фокус на кнопке)
+		get_viewport().set_input_as_handled()
 		
 		if is_typing:
 			# СИТУАЦИЯ 1: Текст ещё печатается -> Мгновенно показываем весь текст
@@ -72,4 +79,4 @@ func _unhandled_input(event):
 		else:
 			# СИТУАЦИЯ 2: Текст уже написан -> Переходим к следующей фразе
 			current_line_index += 1
-			show_next_line()
+			show_next_line()# Если диалог скрыт — не реагируем

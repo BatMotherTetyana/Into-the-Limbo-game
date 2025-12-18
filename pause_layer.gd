@@ -55,3 +55,30 @@ func _on_close_settings_button_pressed(): # Имя функции может б�
 	$SettingsScreen.visible = false
 	# Возвращаем меню паузы
 	$PauseWindow.visible = true
+func _unhandled_input(event):
+	# Проверяем нажатие кнопки ESCAPE
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		
+		# СИТУАЦИЯ 1: Открыты НАСТРОЙКИ
+		if $SettingsScreen.visible:
+			# Закрываем настройки, возвращаем меню паузы (имитируем нажатие крестика)
+			_on_close_settings_button_pressed() 
+			# (Убедись, что имя функции _on_close... совпадает с тем, что у тебя в коде!)
+			
+		# СИТУАЦИЯ 2: Открыто само МЕНЮ ПАУЗЫ
+		elif $PauseWindow.visible:
+			# Возвращаемся в игру (имитируем кнопку Resume)
+			# Если у тебя есть функция _on_resume_button_pressed, вызови её:
+			# _on_resume_button_pressed()
+			
+			# Или просто напиши код закрытия вручную:
+			$PauseWindow.visible = false
+			$OpenButton.visible = true # Если есть кнопка открытия
+			get_tree().paused = false
+			
+		# СИТУАЦИЯ 3: ИГРА ИДЕТ (всё закрыто)
+		else:
+			# Ставим на паузу
+			$PauseWindow.visible = true
+			$OpenButton.visible = false
+			get_tree().paused = true
