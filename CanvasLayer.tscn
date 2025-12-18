@@ -56,16 +56,20 @@ offset_left = 590.0
 offset_top = 350.0
 offset_right = 950.0
 offset_bottom = 520.0
+disabled = true
 texture_normal = ExtResource("7_ie3y8")
 texture_pressed = ExtResource("8_o8tb1")
+texture_disabled = ExtResource("8_o8tb1")
 
 [node name="TextureButton2" type="TextureButton" parent="PauseWindow"]
 offset_left = 590.0
 offset_top = 560.0
 offset_right = 950.0
 offset_bottom = 730.0
+disabled = true
 texture_normal = ExtResource("9_up16s")
 texture_pressed = ExtResource("10_e7lry")
+texture_disabled = ExtResource("10_e7lry")
 
 [node name="MenuButton" type="TextureButton" parent="PauseWindow"]
 offset_left = 590.0

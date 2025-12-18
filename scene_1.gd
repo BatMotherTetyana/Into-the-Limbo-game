@@ -225,15 +225,135 @@ func _ready():
 	# Делаем экран прозрачным снова
 	tween.tween_property(black_screen, "color:a", 0.0, 2.0)
 	await tween.finished
-	change_hero_pose(pose1_color, pose1_black) 
+	
 	await get_tree().create_timer(2.0).timeout
 	hero_container.visible = true 
-	# --- 4. ПРОДОЛЖЕНИЕ ---
-	# Теперь можно запускать новый диалог
-	var new_text = ["Где я теперь?", "Здесь всё по-другому..."]
-	$DialogueLayer.start_dialogue(new_text, "Limbo")
+	# ... (Диалог Лимбо про лес)
+	var limbo_q = ["We have crossed the line..."] 
+	$DialogueLayer.start_dialogue(limbo_q, "Limbo", false)
+	# !!! ДОБАВЛЯЕМ AWAIT !!!
+	await $DialogueLayer.dialogue_finished 
 	
-# --- ФУНКЦИИ УПРАВЛЕНИЯ ГЕРОЕМ ---
+	change_hero_pose(pose5_color, pose5_black) 
+	var limbo_q2 = ["And what do you feel, gazing into this thicket?"]
+	$DialogueLayer.start_dialogue(limbo_q2, "Limbo", false)
+	# Тут await уже был, это правильно:
+	await $DialogueLayer.dialogue_finished
+	
+	
+	# --- МОМЕНТ ВЫБОРА ---
+	# ... (тут твой код выбора кнопок без изменений) ...
+	var options = [
+	"I feel peace.",
+	"It's eerie to me.",
+	"Nothing special."
+	]
+	$DialogueLayer.show_choices(options)
+# 3. Ждем, пока игрок нажмет кнопку (слушаем сигнал choice_made
+	var index = await $DialogueLayer.choice_made
+	
+	
+	# --- ПОСЛЕДСТВИЯ ---
+	
+	if index == 0:
+		# ВАРИАНТ 1: ПОКОЙ (Карма +)
+		change_hero_pose(pose1_color, pose1_black) 
+		var reply = ["Hm. A rarity..."]
+		$DialogueLayer.start_dialogue(reply, "Limbo", false)
+		
+		# !!! ТУТ БЫЛА ОШИБКА !!!
+		# Сначала ждем, пока игрок прочитает первую фразу:
+		await $DialogueLayer.dialogue_finished
+		
+		# Потом меняем карму
+		change_karma(true)
+		
+		# Таймер тут можно оставить для паузы, но он не заменяет await
+		await get_tree().create_timer(1.0).timeout 
+		
+		change_hero_pose(pose3_color, pose3_black) 
+		var reply2 = ["I love this forest too...", 
+		"It's not as frightening as everyone makes it out to be.."]
+		$DialogueLayer.start_dialogue(reply2, "Limbo", false)
+		
+		# !!! И ТУТ НУЖЕН AWAIT !!!
+		await $DialogueLayer.dialogue_finished
+
+		change_hero_pose(pose4_color, pose4_black) 
+		var reply3 = ["This forest feeds on panic.", 
+				"Those who flee from shadows usually become them."]
+		$DialogueLayer.start_dialogue(reply3, "Limbo", false)
+		
+		# !!! И ТУТ !!!
+		await $DialogueLayer.dialogue_finished
+
+		change_hero_pose(pose3_color, pose3_black)
+		var reply4 = ["I deeply admire those who see beauty in what might seem grim", 
+				"You're already growing on me.."]
+		# Тут ставим true, чтобы окно закрылось в самом конце
+		$DialogueLayer.start_dialogue(reply4, "Limbo", true) 
+		
+		# И тут тоже ждем, чтобы сценарий не побежал дальше раньше времени
+		await $DialogueLayer.dialogue_finished
+		
+	elif index == 1:
+		# === ВАРИАНТ 2: СТРАХ (Карма -) ===
+		
+		# Сначала реакция, потом изменение кармы
+		change_hero_pose(pose4_color, pose4_black) # Поза 4: Серьезная/Задумчивая
+		var reply_fear1 = ["Expected.", "You project your demons onto these trees."]
+		# (Ожидаемо. Ты проецируешь своих демонов на эти деревья.)
+		$DialogueLayer.start_dialogue(reply_fear1, "Limbo", false)
+		await $DialogueLayer.dialogue_finished
+		
+		# Изменяем карму (Темнеем)
+		change_karma(false) 
+		# Небольшая пауза для драматизма, чтобы игрок увидел потемнение
+		await get_tree().create_timer(1.0).timeout 
+		
+		change_hero_pose(pose2_color, pose2_black) # Поза 2: Удивление/Испуг (Лимбо делает страшные глаза)
+		var reply_fear2 = ["Be careful: fear takes flesh here.", 
+		"The more you tremble, the darker the road becomes."]
+		# (Будь осторожен: здесь страх обретает плоть. Чем больше ты дрожишь, тем темнее становится дорога.)
+		$DialogueLayer.start_dialogue(reply_fear2, "Limbo", false)
+		await $DialogueLayer.dialogue_finished
+		
+		change_hero_pose(pose1_color, pose1_black) # Поза 1: Нейтральная (Возврат к спокойствию)
+		var reply_fear3 = ["Try to pull yourself together if you want to get through."]
+		# (Постарайся взять себя в руки, если хочешь пройти.)
+		# Закрываем окно в конце (true)
+		$DialogueLayer.start_dialogue(reply_fear3, "Limbo", true)
+		await $DialogueLayer.dialogue_finished
+		
+		
+	elif index == 2:
+		# === ВАРИАНТ 3: НЕЙТРАЛЬНО (Карма не меняется) ===
+		
+		# Лимбо реагирует немного холодно или пренебрежительно
+		change_hero_pose(pose6_color, pose6_black) # Поза 6: Раздражение/Пренебрежение
+		var reply_neutral1 = ["Is that so? An empty gaze..."]
+		# (Вот как? Пустой взгляд...)
+		$DialogueLayer.start_dialogue(reply_neutral1, "Limbo", false)
+		await $DialogueLayer.dialogue_finished
+		
+		change_hero_pose(pose1_color, pose1_black) # Поза 1: Нейтральная (Сухая констатация факта)
+		var reply_neutral2 = ["The forest won't touch you, but it won't show you the way either."]
+		# (Лес не тронет тебя, но и дороги не покажет.)
+		$DialogueLayer.start_dialogue(reply_neutral2, "Limbo", false)
+		await $DialogueLayer.dialogue_finished
+		
+		# Поза остается нейтральной
+		var reply_neutral3 = ["We'll have to walk blindly. Don't lag behind."]
+		# (Придется идти на ощупь. Не отставай.)
+		# Закрываем окно в конце (true)
+		$DialogueLayer.start_dialogue(reply_neutral3, "Limbo", true)
+		await $DialogueLayer.dialogue_finished
+
+	# <-- Важно: Убедись, что этот await стоит ПОСЛЕ всего блока if/elif/elif
+	# Он нужен, чтобы сюжет не пошел дальше, пока не закончится ЛЮБОЙ из выбранных диалогов.
+	await $DialogueLayer.dialogue_finished
+	
+	# ... (Сюжет продолжается дальше) ...
 
 # 1. Функция изменения Кармы (шагов проявления)
 # Вызывай change_karma(true), если ответ правильный

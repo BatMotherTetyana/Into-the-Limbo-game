@@ -2,6 +2,11 @@ extends CanvasLayer
 
 signal dialogue_finished
 
+# --- ЗАГРУЗКА ШРИФТА ---
+# Укажи путь к своему пиксельному шрифту!
+var button_font = preload("res://dogicapixel.ttf") 
+
+# ... (дальше твои остальные переменные: bg_narrator, text_narrator и т.д.)
 # --- ССЫЛКИ НА УЗЛЫ ---
 @onready var bg_narrator = $BackgroundNarrator
 @onready var text_narrator = $TextNarrator
@@ -109,3 +114,49 @@ func _unhandled_input(event):
 		else:
 			current_line_index += 1
 			show_next_line()
+			
+			# ... (твой старый код) ...
+
+# Сигнал, который скажет сцене 1, что игрок выбрал кнопку
+signal choice_made(index: int)
+
+@onready var choice_menu = $ChoiceMenu # Ссылка на контейнер
+
+# Функция создания кнопок
+func show_choices(options: Array):
+	# 1. Удаляем старые кнопки
+	for child in choice_menu.get_children():
+		child.queue_free()
+	
+	# 2. Создаем новые
+	for i in range(options.size()):
+		var btn = Button.new()
+		btn.text = options[i]
+		
+		# --- ВОТ ТУТ ДОБАВЛЯЕМ ШРИФТ ---
+		
+		# 1. Устанавливаем сам файл шрифта
+		btn.add_theme_font_override("font", button_font)
+		
+		# 2. (Опционально) Меняем размер шрифта, если нужно покрупнее
+		btn.add_theme_font_size_override("font_size", 24)
+		
+		# 3. (Опционально) Можно поменять цвет текста
+		# btn.add_theme_color_override("font_color", Color(1, 1, 1)) # Белый
+		# btn.add_theme_color_override("font_hover_color", Color(1, 1, 0)) # Желтый при наведении
+		
+		# -------------------------------
+		
+		btn.pressed.connect(_on_button_pressed.bind(i))
+		choice_menu.add_child(btn)
+	
+	choice_menu.visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+# Внутренняя функция при нажатии
+func _on_button_pressed(index: int):
+	# Скрываем меню
+	choice_menu.visible = false
+	
+	# Сообщаем игре: "Выбрана кнопка номер [index]!"
+	choice_made.emit(index)

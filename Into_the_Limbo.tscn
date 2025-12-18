@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://d3iysmynb00oq"]
+[gd_scene load_steps=25 format=3 uid="uid://d3iysmynb00oq"]
 
 [ext_resource type="Texture2D" uid="uid://dj02cr0ruice1" path="res://main_menu.png" id="1_b38ll"]
 [ext_resource type="Script" uid="uid://di1by5aef40yp" path="res://into_the_limbo.gd" id="1_nmewe"]
 [ext_resource type="Texture2D" uid="uid://brom56n0qsews" path="res://authors_button2.png" id="2_cr422"]
+[ext_resource type="Texture2D" uid="uid://dy0r50u83fkx7" path="res://1766037699061.jpg" id="3_dqlum"]
 [ext_resource type="Texture2D" uid="uid://dyih0dxtqpnbj" path="res://authors_button.png" id="3_nmewe"]
 [ext_resource type="Texture2D" uid="uid://dv5buim306k81" path="res://continue_button2.png" id="4_gsvpv"]
 [ext_resource type="Texture2D" uid="uid://bh6kwdwjm6l03" path="res://continue_button.png" id="5_x7n11"]
@@ -22,12 +23,31 @@
 [ext_resource type="Texture2D" uid="uid://dptkyy7dk7dkq" path="res://settings_close_button2.png" id="21_77w16"]
 [ext_resource type="Texture2D" uid="uid://qgs632ae06j0" path="res://settings_close_button.png" id="22_uks4d"]
 
+[sub_resource type="Gradient" id="Gradient_x3fph"]
+colors = PackedColorArray(0, 0, 0, 1, 0.47007585, 0.47007585, 0.47007585, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_77w16"]
+gradient = SubResource("Gradient_x3fph")
+
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_nmewe")
 
 [node name="MainMenu" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(960, 540)
 texture = ExtResource("1_b38ll")
+
+[node name="1766037699061" type="Sprite2D" parent="."]
+position = Vector2(959.7811, 539.37506)
+scale = Vector2(0.76921725, 0.76921713)
+texture = ExtResource("3_dqlum")
+
+[node name="TextureRect" type="TextureRect" parent="1766037699061"]
+offset_left = -1264.6377
+offset_top = -707.70013
+offset_right = 418.89185
+offset_bottom = 696.32477
+texture = SubResource("GradientTexture2D_77w16")
 
 [node name="IntoTheLimbo" type="Sprite2D" parent="."]
 position = Vector2(960, 540)

@@ -78,3 +78,11 @@ offset_top = 767.0
 offset_right = 397.0
 offset_bottom = 815.0
 label_settings = SubResource("LabelSettings_awwnu")
+
+[node name="ChoiceMenu" type="HBoxContainer" parent="."]
+offset_left = 130.0
+offset_top = 946.0
+offset_right = 1789.0
+offset_bottom = 1029.0
+theme_override_constants/separation = 20
+alignment = 1
