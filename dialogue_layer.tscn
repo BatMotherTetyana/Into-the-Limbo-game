@@ -1,14 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://dy3wneqg6tqbr"]
+[gd_scene load_steps=9 format=3 uid="uid://dy3wneqg6tqbr"]
 
 [ext_resource type="Script" uid="uid://v2ctysv67pjh" path="res://dialogue_layer.gd" id="1_872dw"]
 [ext_resource type="Texture2D" uid="uid://d0j0krlv638fl" path="res://gialogue_window.png" id="1_sasex"]
+[ext_resource type="Texture2D" uid="uid://b7gpftrgqmhdk" path="res://dialogue_window2.png" id="2_vf0an"]
 [ext_resource type="FontFile" uid="uid://qsmhq6ad7407" path="res://dogicapixel.ttf" id="3_872dw"]
+[ext_resource type="FontFile" uid="uid://da8hauu7b8fa4" path="res://PixelOperator.ttf" id="5_vf0an"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_872dw"]
 line_spacing = 10.0
 font = ExtResource("3_872dw")
 font_size = 30
 font_color = Color(0.6542319, 0.6542321, 0.654232, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vf0an"]
+line_spacing = 10.0
+font = ExtResource("5_vf0an")
+font_size = 60
+font_color = Color(0.7750634, 0.7750634, 0.7750634, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_awwnu"]
+font = ExtResource("5_vf0an")
+font_size = 60
+font_color = Color(0.6872149, 0.68721503, 0.6872149, 1)
+outline_size = 3
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.627451)
 
 [node name="DialogueLayer" type="CanvasLayer"]
 script = ExtResource("1_872dw")
@@ -20,21 +36,45 @@ offset_right = 1936.0
 offset_bottom = 1093.0
 mouse_filter = 1
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="BackgroundNarrator" type="TextureRect" parent="."]
+visible = false
 offset_top = 820.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 texture = ExtResource("1_sasex")
 
-[node name="Label" type="Label" parent="Background"]
-layout_mode = 1
+[node name="TextNarrator" type="Label" parent="."]
 anchors_preset = -1
 anchor_left = 0.062000003
 anchor_right = 0.93700004
 anchor_bottom = 0.87100005
 offset_left = 11.959991
-offset_top = 30.0
+offset_top = 850.0
 offset_right = -9.040039
-offset_bottom = -26.460007
+offset_bottom = 79.31995
 label_settings = SubResource("LabelSettings_872dw")
 autowrap_mode = 3
+
+[node name="BackgroundCharacter" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_vf0an")
+
+[node name="TextCharacter" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.062000003
+anchor_right = 0.93700004
+anchor_bottom = 0.87100005
+offset_left = 10.959991
+offset_top = 850.0
+offset_right = -9.040039
+offset_bottom = 79.31995
+label_settings = SubResource("LabelSettings_vf0an")
+autowrap_mode = 3
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = 153.0
+offset_top = 767.0
+offset_right = 397.0
+offset_bottom = 815.0
+label_settings = SubResource("LabelSettings_awwnu")

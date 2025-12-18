@@ -1,82 +1,111 @@
-extends CanvasLayer  # Это ВСЕГДА первая строка!
+extends CanvasLayer
 
 signal dialogue_finished
 
-# Сюда мы будем загружать фразы
+# --- ССЫЛКИ НА УЗЛЫ ---
+@onready var bg_narrator = $BackgroundNarrator
+@onready var text_narrator = $TextNarrator
+
+@onready var bg_character = $BackgroundCharacter
+@onready var text_character = $TextCharacter
+@onready var name_label = $NameLabel
+
+# Переменные для логики текста
 var dialogue_lines: Array = []
 var current_line_index = 0
-
-# Флаг: печатается ли текст прямо сейчас?
 var is_typing = false
-# Переменная для анимации текста
 var current_tween: Tween
 
-@onready var text_label = $Background/Label
-@onready var background = $Background
+# Сюда мы запоминаем, в какой Label писать прямо сейчас
+var active_label: Label = null
+
+# Флаг: закрывать ли окно после окончания диалога?
+var should_close: bool = true
 
 func _ready():
-	# Скрываем диалог при запуске игры
 	visible = false
+	# Скрываем всё при старте
+	if bg_narrator: bg_narrator.visible = false
+	if text_narrator: text_narrator.visible = false
+	if bg_character: bg_character.visible = false
+	if text_character: text_character.visible = false
+	if name_label: name_label.visible = false
 
-# Эту функцию мы вызовем из сцены игры, чтобы начать разговор
-func start_dialogue(lines: Array):
+# --- ГЛАВНАЯ ФУНКЦИЯ ЗАПУСКА ---
+# Мы добавили параметр close_after (по умолчанию true - закрывать)
+func start_dialogue(lines: Array, character_name: String = "", close_after: bool = true):
 	dialogue_lines = lines
 	current_line_index = 0
-	visible = true
+	should_close = close_after # Запоминаем: закрывать в конце или нет?
+	
+	visible = true # <--- ВОТ ЭТА ВАЖНАЯ СТРОЧКА, КОТОРАЯ ОТКРЫВАЕТ ОКНО!
+	
+	# --- НАСТРОЙКА ВНЕШНЕГО ВИДА ---
+	
+	if character_name == "":
+		# === РЕЖИМ АВТОРА ===
+		if bg_narrator: bg_narrator.visible = true
+		if text_narrator: text_narrator.visible = true
+		
+		if bg_character: bg_character.visible = false
+		if text_character: text_character.visible = false
+		if name_label: name_label.visible = false
+		
+		active_label = text_narrator
+		
+	else:
+		# === РЕЖИМ ПЕРСОНАЖА ===
+		if bg_narrator: bg_narrator.visible = false
+		if text_narrator: text_narrator.visible = false
+		
+		if bg_character: bg_character.visible = true
+		if text_character: text_character.visible = true
+		
+		if name_label: 
+			name_label.visible = true
+			name_label.text = character_name
+		
+		active_label = text_character
+	
 	show_next_line()
 
 func show_next_line():
-	# Если фразы кончились — закрываем окно
+	# Если фразы кончились
 	if current_line_index >= dialogue_lines.size():
-		visible = false
 		
-		# --- ДОБАВЬ ЭТУ СТРОЧКУ: ---
-		dialogue_finished.emit() # Кричим: "Диалог окончен!"
-		# ---------------------------
-		
+		# ПРОВЕРЯЕМ: Нужно ли закрывать окно?
+		if should_close == true:
+			visible = false # Закрываем полностью
+		else:
+			pass # Оставляем висеть открытым (для смены позы)
+			
+		dialogue_finished.emit() # Сигнал посылаем всегда!
 		return
 	
-	# Берем текущую фразу
-	text_label.text = dialogue_lines[current_line_index]
-	
-	# Начинаем эффект печатной машинки
-	# visible_ratio = 0 (текста не видно), = 1 (весь текст виден)
-	text_label.visible_ratio = 0.0
+	# Если активного текста нет (ошибка), выходим
+	if active_label == null: return
+
+	# Пишем текст
+	active_label.text = dialogue_lines[current_line_index]
+	active_label.visible_ratio = 0.0
 	is_typing = true
 	
-	# Создаем анимацию (Tween)
-	if current_tween: current_tween.kill() # Удаляем старую анимацию, если была
+	if current_tween: current_tween.kill()
 	current_tween = create_tween()
 	
-	# Рассчитываем время: 0.05 сек на каждую букву
-	var duration = text_label.text.length() * 0.035
-	current_tween.tween_property(text_label, "visible_ratio", 1.0, duration)
+	var duration = active_label.text.length() * 0.05
+	current_tween.tween_property(active_label, "visible_ratio", 1.0, duration)
 	
-	# Когда анимация закончится, говорим, что печатать закончили
 	current_tween.finished.connect(func(): is_typing = false)
 
 func _unhandled_input(event):
-	# Если диалог скрыт — не реагируем ни на что
 	if not visible: return
 	
-	# 1. Проверяем, что именно нажал игрок
-	var is_mouse_click = (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT)
-	var is_space = (event is InputEventKey and event.pressed and event.keycode == KEY_SPACE)
-	var is_enter = (event is InputEventKey and event.pressed and event.keycode == KEY_ENTER)
-	
-	# 2. Если произошло ЛЮБОЕ из этих действий
-	if is_mouse_click or is_space or is_enter:
-		
-		# Чтобы нажатие пробела не срабатывало дважды (если фокус на кнопке)
-		get_viewport().set_input_as_handled()
-		
-		if is_typing:
-			# СИТУАЦИЯ 1: Текст ещё печатается -> Мгновенно показываем весь текст
-			current_tween.kill() # Останавливаем печать
-			text_label.visible_ratio = 1.0 # Показываем всё
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if is_typing and active_label:
+			current_tween.kill()
+			active_label.visible_ratio = 1.0
 			is_typing = false
-			
 		else:
-			# СИТУАЦИЯ 2: Текст уже написан -> Переходим к следующей фразе
 			current_line_index += 1
-			show_next_line()# Если диалог скрыт — не реагируем
+			show_next_line()

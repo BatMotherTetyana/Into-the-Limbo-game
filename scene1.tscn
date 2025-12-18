@@ -56,6 +56,5 @@ mouse_filter = 2
 texture = SubResource("GradientTexture2D_sprq5")
 
 [node name="DialogueLayer" parent="." instance=ExtResource("4_tq727")]
-visible = false
 
 [node name="PauseLayer" parent="." instance=ExtResource("3_ho7oe")]

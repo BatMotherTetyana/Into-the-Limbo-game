@@ -13,6 +13,9 @@ extends Node2D
 
 # --- ЗАГРУЗКА СПРАЙТОВ (ПОЗЫ) ---
 # preload загружает картинки сразу при старте игры - это работает быстрее
+var bg_location2 = preload("res://bg_scene2.png") # Замени на имя файла
+var sound_location2 = preload("res://wind-through-the-leaves.mp3")
+var sound_location3 = preload("res://leaves-rustle.mp3")
 
 # ПОЗА 1 (Нейтральная / Спокойная)
 var pose1_color = preload("res://limbo1.png")
@@ -130,9 +133,106 @@ func _ready():
 	tween.tween_property(black_screen, "color:a", 0.0, 2.0) # Медленно, за 3 сек
 	await tween.finished
 	
+	await get_tree().create_timer(2.0).timeout
 	
-
-
+	var Limbo_voice = [
+		"...",
+		"Hi..",
+		]
+	$DialogueLayer.start_dialogue(Limbo_voice, "Limbo")
+	await $DialogueLayer.dialogue_finished
+	# --- 3. КАТ-СЦЕНА (ПОЯВЛЕНИЕ ГЕРОЯ) ---
+	
+	await get_tree().create_timer(1).timeout
+	change_hero_pose(pose5_color, pose5_black)
+	await get_tree().create_timer(2).timeout
+	
+	
+	change_hero_pose(pose4_color, pose4_black)
+	var part1 = ["Are you new around here?"]
+	$DialogueLayer.start_dialogue(part1, "Limbo", false)
+	await $DialogueLayer.dialogue_finished
+	
+	change_hero_pose(pose2_color, pose2_black) 
+	var part2 = ["It's been ages since I last encountered a human soul like yours..."]
+	$DialogueLayer.start_dialogue(part2, "Limbo", false)
+	await $DialogueLayer.dialogue_finished
+	
+	change_hero_pose(pose5_color, pose5_black) 
+	var part3 = ["What is your name?"]
+	$DialogueLayer.start_dialogue(part3, "Limbo", true)
+	await $DialogueLayer.dialogue_finished
+	
+	await get_tree().create_timer(2).timeout
+	
+	change_hero_pose(pose6_color, pose6_black)
+	var part4 = ["Although...", "Anyway, it hardly matters."]
+	$DialogueLayer.start_dialogue(part4, "Limbo", false)
+	await $DialogueLayer.dialogue_finished
+	
+	change_hero_pose(pose3_color, pose3_black) 
+	var part5 = ["I suppose you'd benefit from somewhere cozier than this forsaken steppe, wouldn't you? Haha..."]
+	$DialogueLayer.start_dialogue(part5, "Limbo", false)
+	await $DialogueLayer.dialogue_finished
+	
+	change_hero_pose(pose4_color, pose4_black) 
+	var part6 = ["Come with me—I'll tell you all about this place and how you ended up here along the way."]
+	$DialogueLayer.start_dialogue(part6, "Limbo", true)
+	await $DialogueLayer.dialogue_finished
+	
+	await get_tree().create_timer(2).timeout
+	
+	# ... (Твой предыдущий диалог закончился) ...
+	
+	# --- 1. ЗАТЕМНЕНИЕ (УХОД В ТЕМНОТУ) ---
+	tween = create_tween()
+	# Затемняем экран за 2 секунды
+	tween.tween_property(black_screen, "color:a", 1.0, 2.0)
+	
+	# Параллельно глушим старый звук ветра/леса (если AudioManager поддерживает это)
+	# Если просто запустить новый звук с fade_time, он должен сам перекрыть старый.
+	AudioManager.play_ambient(sound_location2, 2.0) 
+	
+	# Ждем, пока экран станет черным
+	await tween.finished
+	
+	
+	# --- 2. СМЕНА ДЕКОРАЦИЙ (В ТЕМНОТЕ) ---
+	# Пока никто не видит, меняем картинку фона.
+	$BgScene1.texture = bg_location2
+	
+	# === ВОТ ТУТ ДВИГАЕМ ГЕРОЯ ===
+	# Если экран 1920 шириной, то центр ~960.
+	# Чтобы поставить слева: пробуй 400 или 500.
+	# Чтобы поставить справа: пробуй 1400 или 1500.
+	
+	hero_container.position.x = 400  # <--- ДОБАВЬ ЭТУ СТРОЧКУ (Поставь персонажа влево)
+	
+	# (Если нужно поднять или опустить, меняй Y)
+	# hero_container.position.y = 800
+	
+	
+	# Ждем пару секунд для атмосферы...
+	await get_tree().create_timer(2.0).timeout
+	
+	
+	# Тут можно сменить и позу героя, если нужно, или скрыть его
+	hero_container.visible = false 
+	
+	
+	# --- 3. ВЫХОД ИЗ ТЕМНОТЫ ---
+	tween = create_tween()
+	# Делаем экран прозрачным снова
+	tween.tween_property(black_screen, "color:a", 0.0, 2.0)
+	await tween.finished
+	change_hero_pose(pose1_color, pose1_black) 
+	await get_tree().create_timer(2.0).timeout
+	hero_container.visible = true 
+	# --- 4. ПРОДОЛЖЕНИЕ ---
+	# Теперь можно запускать новый диалог
+	var new_text = ["Где я теперь?", "Здесь всё по-другому..."]
+	$DialogueLayer.start_dialogue(new_text, "Limbo")
+	
 # --- ФУНКЦИИ УПРАВЛЕНИЯ ГЕРОЕМ ---
 
 # 1. Функция изменения Кармы (шагов проявления)
