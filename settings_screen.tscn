@@ -1,70 +1,113 @@
-[gd_scene load_steps=13 format=3 uid="uid://hdlkpjn2vkpv"]
+[gd_scene format=3 uid="uid://hdlkpjn2vkpv"]
 
 [ext_resource type="Script" uid="uid://cdjq8xdycis75" path="res://settings_screen.gd" id="1_pl6fm"]
 [ext_resource type="Texture2D" uid="uid://dr4el0ilga2q8" path="res://window_settings.png" id="2_anur6"]
 [ext_resource type="Texture2D" uid="uid://c82eqd5swpwon" path="res://maket.png" id="2_rw28t"]
+[ext_resource type="Texture2D" uid="uid://b4waont83ujrr" path="res://menu_settings_bg_en.png" id="3_qoavy"]
 [ext_resource type="Texture2D" uid="uid://dptkyy7dk7dkq" path="res://settings_close_button2.png" id="3_rw28t"]
-[ext_resource type="Texture2D" uid="uid://teo3u7vsjxpn" path="res://music_and_sound_text.png" id="4_67ev4"]
 [ext_resource type="Texture2D" uid="uid://qgs632ae06j0" path="res://settings_close_button.png" id="4_dixn7"]
+[ext_resource type="Texture2D" uid="uid://170rkgeb2kok" path="res://flag_en.png" id="4_lptur"]
+[ext_resource type="Texture2D" uid="uid://bnkds0oi3qhnx" path="res://menu_test.png" id="5_lqyld"]
 [ext_resource type="Script" uid="uid://bpoo8ydfhkclp" path="res://texture_button.gd" id="7_7nlux"]
 [ext_resource type="Texture2D" uid="uid://wshnth56e7bg" path="res://slider_sound.png" id="7_bpc1v"]
 [ext_resource type="Texture2D" uid="uid://docp24geaxwbs" path="res://slider_music.png" id="8_7nlux"]
 [ext_resource type="Texture2D" uid="uid://cqsk1jknagd3w" path="res://sound_button.png" id="8_od4yn"]
+[ext_resource type="Texture2D" uid="uid://blkg5m08pvwa0" path="res://btn_close_hover.png" id="9_1kimy"]
 [ext_resource type="Texture2D" uid="uid://y625a2856geg" path="res://music_button.png" id="10_cvpfs"]
+[ext_resource type="Texture2D" uid="uid://dhwmvbfdt3udo" path="res://btn_arrow_right_normal.png" id="11_eilm6"]
+[ext_resource type="Texture2D" uid="uid://bendt86d43elg" path="res://btn_arrow_right_pressed.png" id="12_o42k1"]
+[ext_resource type="Texture2D" uid="uid://uiqq653mhrnx" path="res://btn_arrow_right_hover.png" id="13_qnc28"]
+[ext_resource type="Texture2D" uid="uid://bfhvqks51w10m" path="res://btn_arrow_left_normal.png" id="14_p28u7"]
+[ext_resource type="Texture2D" uid="uid://dg2ral2rpkyrg" path="res://btn_arrow_left_pressed.png" id="15_70ryi"]
+[ext_resource type="Texture2D" uid="uid://i8totojpyh1j" path="res://btn_arrow_left_hover.png" id="16_w8bdu"]
+[ext_resource type="Texture2D" uid="uid://c2rsplc6pb76j" path="res://icon_sound_hover.png" id="20_qnc28"]
+[ext_resource type="Texture2D" uid="uid://cp6ls564nulpg" path="res://icon_music_hover.png" id="22_p28u7"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_67ev4"]
 
-[node name="SettingsScreen" type="Node2D"]
+[node name="SettingsScreen" type="Node2D" unique_id=27065526]
 script = ExtResource("1_pl6fm")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=279554808]
 offset_right = 1924.0
 offset_bottom = 1080.0
 color = Color(1, 1, 1, 0)
 
-[node name="Maket" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(960, 540)
-texture = ExtResource("2_rw28t")
-
-[node name="WindowSettings" type="Sprite2D" parent="."]
+[node name="WindowSettings" type="Sprite2D" parent="." unique_id=921363688]
 position = Vector2(960, 540)
 texture = ExtResource("2_anur6")
 
-[node name="WindowSettings2" type="Sprite2D" parent="."]
+[node name="WindowSettings2" type="Sprite2D" parent="." unique_id=1458838403]
 modulate = Color(1, 1, 1, 0.5176471)
 position = Vector2(960, 540)
 texture = ExtResource("2_anur6")
 
-[node name="MusicAndSoundText" type="Sprite2D" parent="."]
-position = Vector2(960, 540)
-texture = ExtResource("4_67ev4")
+[node name="SettingsBackground" type="TextureRect" parent="." unique_id=2075662428]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("3_qoavy")
 
-[node name="TextureButton" type="TextureButton" parent="."]
+[node name="LanguageFlag" type="TextureRect" parent="." unique_id=92898755]
+offset_left = 1160.0
+offset_top = 730.0
+offset_right = 1400.0
+offset_bottom = 900.0
+texture = ExtResource("4_lptur")
+
+[node name="MenuTest" type="Sprite2D" parent="." unique_id=1416520184]
+visible = false
+position = Vector2(960, 540)
+texture = ExtResource("5_lqyld")
+
+[node name="Maket" type="Sprite2D" parent="." unique_id=313989740]
+visible = false
+position = Vector2(960, 540)
+texture = ExtResource("2_rw28t")
+
+[node name="TextureButton" type="TextureButton" parent="." unique_id=404732307]
 offset_left = 1610.0
 offset_top = 130.0
 offset_right = 1790.0
 offset_bottom = 300.0
 texture_normal = ExtResource("4_dixn7")
 texture_pressed = ExtResource("3_rw28t")
+texture_hover = ExtResource("9_1kimy")
 script = ExtResource("7_7nlux")
 
-[node name="SliderSound" type="Sprite2D" parent="."]
+[node name="BtnArrowRight" type="TextureButton" parent="." unique_id=512288887]
+offset_left = 1420.0
+offset_top = 780.0
+offset_right = 1470.0
+offset_bottom = 850.0
+texture_normal = ExtResource("13_qnc28")
+texture_pressed = ExtResource("12_o42k1")
+texture_hover = ExtResource("11_eilm6")
+
+[node name="BtnArrowLeft" type="TextureButton" parent="." unique_id=493478894]
+offset_left = 1090.0
+offset_top = 780.0
+offset_right = 1140.0
+offset_bottom = 850.0
+texture_normal = ExtResource("14_p28u7")
+texture_pressed = ExtResource("15_70ryi")
+texture_hover = ExtResource("16_w8bdu")
+
+[node name="SliderSound" type="Sprite2D" parent="." unique_id=232014403]
 position = Vector2(960, 540)
 texture = ExtResource("7_bpc1v")
 
-[node name="SliderMusic" type="Sprite2D" parent="."]
+[node name="SliderMusic" type="Sprite2D" parent="." unique_id=774208063]
 position = Vector2(960, 540)
 texture = ExtResource("8_7nlux")
 
-[node name="HSlider" type="HSlider" parent="."]
+[node name="HSlider" type="HSlider" parent="." unique_id=954320678]
 use_parent_material = true
 offset_left = 150.0
 offset_top = 730.0
 offset_right = 836.0
 offset_bottom = 900.0
 theme_override_icons/grabber = ExtResource("8_od4yn")
-theme_override_icons/grabber_highlight = ExtResource("8_od4yn")
+theme_override_icons/grabber_highlight = ExtResource("20_qnc28")
 theme_override_icons/grabber_disabled = ExtResource("8_od4yn")
 theme_override_icons/tick = ExtResource("8_od4yn")
 theme_override_styles/slider = SubResource("StyleBoxTexture_67ev4")
@@ -73,14 +116,14 @@ max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="HSlider2" type="HSlider" parent="."]
+[node name="HSlider2" type="HSlider" parent="." unique_id=1915145878]
 use_parent_material = true
 offset_left = 150.0
 offset_top = 310.0
 offset_right = 836.0
 offset_bottom = 480.0
 theme_override_icons/grabber = ExtResource("10_cvpfs")
-theme_override_icons/grabber_highlight = ExtResource("10_cvpfs")
+theme_override_icons/grabber_highlight = ExtResource("22_p28u7")
 theme_override_icons/grabber_disabled = ExtResource("10_cvpfs")
 theme_override_icons/tick = ExtResource("10_cvpfs")
 theme_override_styles/slider = SubResource("StyleBoxTexture_67ev4")
@@ -91,5 +134,7 @@ value = 1.0
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="pressed" from="BtnArrowRight" to="." method="_on_btn_arrow_right_pressed"]
+[connection signal="pressed" from="BtnArrowLeft" to="." method="_on_btn_arrow_left_pressed"]
 [connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="HSlider2" to="." method="_on_h_slider_2_value_changed"]
